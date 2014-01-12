@@ -48,6 +48,8 @@ public class RequestsService extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 	    pw.println("");
 	//	addRow("kolory", kolor);
+	    Object [] params={"","user7","cos"};
+		addRow("U¿ytkownicy",params);
 	//	deleteRow("Wina",10);
 	//	updateValues("Wina",12,"Cena",101);
 	//	pw.println(isPasswordCorrect("ela","ela"));

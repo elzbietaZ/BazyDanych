@@ -50,11 +50,12 @@ public class ParsingTest extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 	//	writeExample();
-	//	tableToXml("U¿ytkownicy");
-		List<Change> changes=new ArrayList<Change>();
+		tableToXml("U¿ytkownicy");
+	/*	List<Change> changes=new ArrayList<Change>();
 		changes.add(new Change(new Date(10,10,20),"Wina",20));
 		changes.add(new Change(new Date(10,10,20),"U¿ytkownicy",1));
 		changesToXml(changes);
+		*/
 
 		
 	}
@@ -108,7 +109,7 @@ public class ParsingTest extends HttpServlet {
 					   out.write("null");
 				   }
 				   else{ 
-					//   out.write(value.getClass().getSimpleName());
+					   out.write(value.getClass().getSimpleName()+"  ");
 					   out.write(value.toString());
 					   }
 				   out.write("</"+key+">");

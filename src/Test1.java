@@ -46,6 +46,7 @@ public class Test1 extends HttpServlet {
   pw.println(getServletContext().getRealPath("/")+"my.mdb");
   pw.println(table.getRowCount());
 //  table.addRow(table.getRowCount(),"foo",21);
+  addWine("wino3",10,"20","link","alzacja","Winnna",10,1);
  }
  
  private void addWine(String name, int price, String alc, String link, String region, String winemakerName, int idKupaz, int idColor){

@@ -6,10 +6,6 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.Collections;
 
-
-
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,26 +24,20 @@ import com.healthmarketscience.jackcess.Row;
 import com.healthmarketscience.jackcess.Table;
 
 /**
- * Servlet implementation class Rejestracja
+ * Servlet implementation class Logowanie
  */
-@WebServlet("/Rejestracja")
-public class Rejestracja extends HttpServlet {
+@WebServlet("/Logowanie")
+public class Logowanie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Rejestracja() {
+    public Logowanie() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-    /*
-     * Przyk³adowe wywo³ania metod:
-   	String s=registration("ela222","ela","ela@gmail.com");
-	pw.println(s);
-    */
-    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -55,9 +45,9 @@ public class Rejestracja extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter pw = response.getWriter();
 		pw.println("");
-		String s="<register><username>usernameExample</username><email>email</email><password>passwordExample</password></register>";
+		String s="<login><username>ela</username><password>ela5</password></login>";
 		try {
-			pw.println(makeRegistration(s));
+			pw.println(logowanie(s));
 		} catch (JDOMException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,46 +60,35 @@ public class Rejestracja extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
-	
-	private String makeRegistration(String xml) throws JDOMException, IOException{
+
+	private String logowanie(String xml) throws JDOMException, IOException{
 		SAXBuilder sb = new SAXBuilder();
 		Document doc = sb.build(new StringReader(xml));
 	     Element rootNode = doc.getRootElement();
 	     String login=rootNode.getChildText("username");
 	     String password=rootNode.getChildText("password");
-	     String email=rootNode.getChildText("email");
-	     return registration(login, password, email);
+		return isPasswordCorrect(login, password);
 	}
 	
-	private String registration(String login, String password, String email){
-		String register="error"; // zwraca ok - jeœli uda³o siê zarejestrowaæ u¿ytkownika, badLogin - kiedy istnieje ju¿ u¿ytkownik o takim loginie i error - jeœli coœ pójdzie nie tak;
-		Date d=new Date();
+	private String isPasswordCorrect(String login, String password){
+		String correct="false";
 		Database db;
-		Table table;
+		  Table table;
 		  try {
 		   db = DatabaseBuilder.open(new File(getServletContext().getRealPath("/")+"my.mdb"));
 		   table = db.getTable("U¿ytkownicy");
 		   Row row=CursorBuilder.findRow(table, Collections.singletonMap("Login", login));
 		   if(row!=null){
-		   register="badLogin";
-		   }
+		   if(row.containsValue(password)) correct="true";	 }
 		   else{
-			 //  Object [] params={"",login,email, password};
-			   Object [] params={"",login,email, password,"","","",null,d,"","","","","","U","N",""};
-			   table.addRow(params);
-			   register="ok";
+			   correct="badLogin"; // kiedy nie ma takiego u¿ytkownika w bazie
 		   }
 		   db.close();
 		  		   
 		  } catch (IOException e1) {
 		   // TODO Auto-generated catch block
 		   e1.printStackTrace();
-		   return register;
 		  }
-		return register;
-		
+		  return correct;
 	}
-	
-
-
 }
